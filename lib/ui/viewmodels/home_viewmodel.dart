@@ -1,11 +1,15 @@
 import 'package:stacked/stacked.dart';
 
 class HomeViewModel extends BaseViewModel {
-  String _title = 'Home';
-  String get title => _title;
+  int _currentTabIndex = 0;
+  int get currentTabIndex => _currentTabIndex;
 
-  void initialize() {
-    // Initialize home view logic here
+  void init() {
+    _currentTabIndex = 0;
+  }
+
+  void setTabIndex(int index) {
+    _currentTabIndex = index;
+    notifyListeners();
   }
 }
-
