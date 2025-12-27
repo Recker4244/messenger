@@ -14,6 +14,7 @@ class MainNavigationView extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+        statusBarIconBrightness: Brightness.dark,
       ),
     );
     return ViewModelBuilder<MainNavigationViewModel>.reactive(
