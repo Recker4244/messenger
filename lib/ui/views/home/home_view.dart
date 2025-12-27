@@ -71,7 +71,6 @@ class HomeView extends StackedView<HomeViewModel> {
               ),
             ];
           },
-
           body: IndexedStack(
             index: model.currentTabIndex,
             children: [UsersView(), ChatsView()],

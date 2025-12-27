@@ -57,10 +57,12 @@ void main() {
       const testUuid = 'test-uuid-123';
       const userName = 'John Doe';
       when(mockUuidService.getRandomUuid()).thenReturn(testUuid);
-      when(mockSnackbarService.showSnackbar(
-        message: anyNamed('message'),
-        duration: anyNamed('duration'),
-      )).thenReturn(null);
+      when(
+        mockSnackbarService.showSnackbar(
+          message: anyNamed('message'),
+          duration: anyNamed('duration'),
+        ),
+      ).thenReturn(null);
 
       viewModel.init();
       final initialCount = viewModel.users.length;
@@ -72,10 +74,12 @@ void main() {
       expect(viewModel.users.length, initialCount + 1);
       expect(viewModel.users.last, {'id': testUuid, 'name': userName});
       verify(mockUuidService.getRandomUuid()).called(1);
-      verify(mockSnackbarService.showSnackbar(
-        message: anyNamed('message'),
-        duration: anyNamed('duration'),
-      )).called(1);
+      verify(
+        mockSnackbarService.showSnackbar(
+          message: anyNamed('message'),
+          duration: anyNamed('duration'),
+        ),
+      ).called(1);
     });
 
     test('addUser should trim whitespace from name', () {
@@ -84,10 +88,12 @@ void main() {
       const userNameWithSpaces = '  Jane Smith  ';
       const expectedName = 'Jane Smith';
       when(mockUuidService.getRandomUuid()).thenReturn(testUuid);
-      when(mockSnackbarService.showSnackbar(
-        message: anyNamed('message'),
-        duration: anyNamed('duration'),
-      )).thenReturn(null);
+      when(
+        mockSnackbarService.showSnackbar(
+          message: anyNamed('message'),
+          duration: anyNamed('duration'),
+        ),
+      ).thenReturn(null);
 
       viewModel.init();
 
@@ -117,10 +123,12 @@ void main() {
       const userName = 'Existing User';
       const testUuid = 'test-uuid-789';
       when(mockUuidService.getRandomUuid()).thenReturn(testUuid);
-      when(mockSnackbarService.showSnackbar(
-        message: anyNamed('message'),
-        duration: anyNamed('duration'),
-      )).thenReturn(null);
+      when(
+        mockSnackbarService.showSnackbar(
+          message: anyNamed('message'),
+          duration: anyNamed('duration'),
+        ),
+      ).thenReturn(null);
 
       viewModel.init();
       viewModel.addUser(userName);
@@ -131,10 +139,12 @@ void main() {
 
       // Assert
       expect(viewModel.users.length, initialCount);
-      verify(mockSnackbarService.showSnackbar(
-        message: anyNamed('message'),
-        duration: anyNamed('duration'),
-      )).called(2); // Once for add, once for error
+      verify(
+        mockSnackbarService.showSnackbar(
+          message: anyNamed('message'),
+          duration: anyNamed('duration'),
+        ),
+      ).called(2); // Once for add, once for error
     });
 
     test('users getter should return the current users list', () {
@@ -150,4 +160,3 @@ void main() {
     });
   });
 }
-
