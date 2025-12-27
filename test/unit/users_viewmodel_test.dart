@@ -15,7 +15,6 @@ void main() {
   late MockSnackbarService mockSnackbarService;
 
   setUp(() {
-    // Reset locator
     if (locator.isRegistered<UuidService>()) {
       locator.unregister<UuidService>();
     }
@@ -43,17 +42,14 @@ void main() {
 
   group('UsersViewModel', () {
     test('init should initialize users list with default users', () {
-      // Act
       viewModel.init();
 
-      // Assert
       expect(viewModel.users.length, greaterThan(0));
       expect(viewModel.users.first, containsPair('id', isA<String>()));
       expect(viewModel.users.first, containsPair('name', isA<String>()));
     });
 
     test('addUser should add a new user with valid name', () {
-      // Arrange
       const testUuid = 'test-uuid-123';
       const userName = 'John Doe';
       when(mockUuidService.getRandomUuid()).thenReturn(testUuid);
@@ -67,10 +63,8 @@ void main() {
       viewModel.init();
       final initialCount = viewModel.users.length;
 
-      // Act
       viewModel.addUser(userName);
 
-      // Assert
       expect(viewModel.users.length, initialCount + 1);
       expect(viewModel.users.last, {'id': testUuid, 'name': userName});
       verify(mockUuidService.getRandomUuid()).called(1);
@@ -83,7 +77,6 @@ void main() {
     });
 
     test('addUser should trim whitespace from name', () {
-      // Arrange
       const testUuid = 'test-uuid-456';
       const userNameWithSpaces = '  Jane Smith  ';
       const expectedName = 'Jane Smith';
@@ -97,29 +90,23 @@ void main() {
 
       viewModel.init();
 
-      // Act
       viewModel.addUser(userNameWithSpaces);
 
-      // Assert
       expect(viewModel.users.last['name'], expectedName);
     });
 
     test('addUser should not add user if name is empty', () {
-      // Arrange
       viewModel.init();
       final initialCount = viewModel.users.length;
 
-      // Act
       viewModel.addUser('');
       viewModel.addUser('   ');
 
-      // Assert
       expect(viewModel.users.length, initialCount);
       verifyNever(mockUuidService.getRandomUuid());
     });
 
     test('addUser should show error if user already exists', () {
-      // Arrange
       const userName = 'Existing User';
       const testUuid = 'test-uuid-789';
       when(mockUuidService.getRandomUuid()).thenReturn(testUuid);
@@ -134,27 +121,22 @@ void main() {
       viewModel.addUser(userName);
       final initialCount = viewModel.users.length;
 
-      // Act
       viewModel.addUser(userName);
 
-      // Assert
       expect(viewModel.users.length, initialCount);
       verify(
         mockSnackbarService.showSnackbar(
           message: anyNamed('message'),
           duration: anyNamed('duration'),
         ),
-      ).called(2); // Once for add, once for error
+      ).called(2);
     });
 
     test('users getter should return the current users list', () {
-      // Arrange
       viewModel.init();
 
-      // Act
       final users = viewModel.users;
 
-      // Assert
       expect(users, isA<List<Map<String, String>>>());
       expect(users, isNotEmpty);
     });
