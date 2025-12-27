@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sivi_chat/ui/views/chat/meaning_chat_modal_sheet.dart';
 import 'package:sivi_chat/utils/date_time_util.dart';
 import 'package:stacked/stacked.dart';
 import '../../viewmodels/chat_viewmodel.dart';
@@ -140,7 +141,6 @@ class ChatView extends StackedView<ChatViewModel> {
 
 class _MessageBubble extends StatelessWidget {
   final Map message;
-
   const _MessageBubble({required this.message});
 
   @override
@@ -189,7 +189,7 @@ class _MessageBubble extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  SelectableText(
                     message['text'],
                     style: TextStyle(
                       color: isError
@@ -199,6 +199,28 @@ class _MessageBubble extends StatelessWidget {
                           : theme.colorScheme.onSurface,
                       fontSize: 16,
                     ),
+                    contextMenuBuilder: (context, editableTextState) {
+                      final selection =
+                          editableTextState.currentTextEditingValue.selection;
+
+                      final selectedText = selection
+                          .textInside(message['text'])
+                          .trim();
+
+                      return AdaptiveTextSelectionToolbar.buttonItems(
+                        anchors: editableTextState.contextMenuAnchors,
+                        buttonItems: [
+                          if (_isSingleWord(selectedText))
+                            ContextMenuButtonItem(
+                              label: 'Meaning',
+                              onPressed: () {
+                                _showMeaning(context, selectedText);
+                              },
+                            ),
+                          ...editableTextState.contextMenuButtonItems,
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -248,5 +270,19 @@ class _MessageBubble extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showMeaning(BuildContext context, String word) {
+    showModalBottomSheet(
+      context: context,
+      constraints: const BoxConstraints(minWidth: 600),
+      showDragHandle: true,
+      builder: (_) => MeaningSheet(word: word),
+    );
+  }
+
+  bool _isSingleWord(String text) {
+    if (text.isEmpty) return false;
+    return RegExp(r"^[a-zA-Z]+$").hasMatch(text);
   }
 }
