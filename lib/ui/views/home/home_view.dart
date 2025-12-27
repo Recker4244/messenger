@@ -11,87 +11,83 @@ class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
   @override
   Widget builder(BuildContext context, HomeViewModel model, Widget? child) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        body: NestedScrollView(
-          floatHeaderSlivers: true,
-          physics: NeverScrollableScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                shape: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).dividerColor.withOpacity(0.5),
-                    width: 0.5, // hairline
-                  ),
-                ),
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                toolbarHeight: 16,
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                pinned: model.currentTabIndex == 1 ? true : false,
-                floating: model.currentTabIndex == 0 ? true : false,
-                snap: model.currentTabIndex == 0 ? true : false,
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(50),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    height: 60,
-                    //width: double.infinity,
-                    child: Center(
-                      child: Container(
-                        width: 200,
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.deepPurple[100],
-                        ),
-                        child: Padding(
-                          padding: EdgeInsetsGeometry.all(3),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _buildTabButton(
-                                context,
-                                model,
-                                0,
-                                'Users',
-                                model.currentTabIndex == 0,
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            body: NestedScrollView(
+              floatHeaderSlivers: true,
+              physics: NeverScrollableScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    shape: Border(
+                      bottom: BorderSide(
+                        color: Theme.of(context).dividerColor.withOpacity(0.5),
+                        width: 0.5, // hairline
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    toolbarHeight: 16,
+                    elevation: 0,
+                    scrolledUnderElevation: 0,
+                    pinned: model.currentTabIndex == 1 ? true : false,
+                    floating: model.currentTabIndex == 0 ? true : false,
+                    snap: model.currentTabIndex == 0 ? true : false,
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(50),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        height: 60,
+                        //width: double.infinity,
+                        child: Center(
+                          child: Container(
+                            width: 200,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.deepPurple[100],
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsGeometry.all(3),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _buildTabButton(
+                                    context,
+                                    model,
+                                    0,
+                                    'Users',
+                                    model.currentTabIndex == 0,
+                                  ),
+                                  _buildTabButton(
+                                    context,
+                                    model,
+                                    1,
+                                    'Chats',
+                                    model.currentTabIndex == 1,
+                                  ),
+                                ],
                               ),
-                              _buildTabButton(
-                                context,
-                                model,
-                                1,
-                                'Chats',
-                                model.currentTabIndex == 1,
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ];
+              },
+              body: IndexedStack(
+                index: model.currentTabIndex,
+                children: [UsersView(), ChatsView()],
               ),
-              // SliverToBoxAdapter(
-              //   child: Container(
-              //     height: 0.6,
-              //     width: double.infinity,
-              //     color: Theme.of(
-              //       context,
-              //     ).dividerColor.withOpacity(0.6), // subtle
-              //   ),
-              // ),
-            ];
-          },
-          body: IndexedStack(
-            index: model.currentTabIndex,
-            children: [UsersView(), ChatsView()],
+            ),
           ),
         ),
       ),
