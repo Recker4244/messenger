@@ -13,6 +13,11 @@ class UsersView extends StackedView<UsersViewModel> {
     return UsersViewModel();
   }
 
+  @override
+  void onViewModelReady(UsersViewModel model) {
+    model.init();
+  }
+
   void _showAddUserDialog(BuildContext context, UsersViewModel model) {
     final nameController = TextEditingController();
     final formKey = GlobalKey<FormState>();

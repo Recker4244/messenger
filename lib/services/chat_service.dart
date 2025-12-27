@@ -5,23 +5,6 @@ class ChatService {
   List<Map<String, dynamic>> get chats => _chats;
   Map<String, List<Map>> get chatMessages => _chatMessages;
 
-  void addChat(Map<String, String> user) {
-    final existingChatIndex = _chats.indexWhere(
-      (chat) => chat['userId'] == user['id'],
-    );
-
-    if (existingChatIndex == -1) {
-      _chats.add({
-        'id': DateTime.now().millisecondsSinceEpoch.toString(),
-        'userId': user['id'],
-        'userName': user['name'],
-        'lastMessage': 'Chat started',
-        'lastMessageTime': DateTime.now(),
-      });
-      _chatMessages[user['id']!] = [];
-    }
-  }
-
   List<Map> getMessagesForUser(String userId) {
     if (!_chatMessages.containsKey(userId)) {
       _chatMessages[userId] = [];

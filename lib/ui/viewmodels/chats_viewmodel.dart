@@ -8,11 +8,6 @@ class ChatsViewModel extends BaseViewModel {
   List<Map<String, dynamic>> get chats => _chatService.chats;
   Map<String, List<Map>> get chatMessages => _chatService.chatMessages;
 
-  void addChat(Map<String, String> user) {
-    _chatService.addChat(user);
-    notifyListeners();
-  }
-
   List<Map> getMessagesForUser(String userId) {
     return _chatService.getMessagesForUser(userId);
   }
