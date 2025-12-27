@@ -20,7 +20,16 @@ class HomeView extends StackedView<HomeViewModel> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
-                toolbarHeight: 30,
+                shape: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).dividerColor.withOpacity(0.5),
+                    width: 0.5, // hairline
+                  ),
+                ),
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                toolbarHeight: 16,
+                elevation: 0,
+                scrolledUnderElevation: 0,
                 pinned: model.currentTabIndex == 1 ? true : false,
                 floating: model.currentTabIndex == 0 ? true : false,
                 snap: model.currentTabIndex == 0 ? true : false,
@@ -69,6 +78,15 @@ class HomeView extends StackedView<HomeViewModel> {
                   ),
                 ),
               ),
+              // SliverToBoxAdapter(
+              //   child: Container(
+              //     height: 0.6,
+              //     width: double.infinity,
+              //     color: Theme.of(
+              //       context,
+              //     ).dividerColor.withOpacity(0.6), // subtle
+              //   ),
+              // ),
             ];
           },
           body: IndexedStack(
