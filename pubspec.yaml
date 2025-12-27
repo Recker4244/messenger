@@ -37,6 +37,8 @@ dependencies:
   get_it: ^7.6.4
   stacked: ^3.4.3
   stacked_services: ^1.6.0
+  http: ^1.6.0
+  uuid: ^4.5.2
 
 dev_dependencies:
   flutter_test:

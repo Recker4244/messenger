@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sivi_chat/locator.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 import '../../viewmodels/home_viewmodel.dart';
 import '../../viewmodels/users_viewmodel.dart';
 import '../users/users_view.dart';
@@ -7,7 +9,6 @@ import '../chats/chats_view.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
-
   @override
   Widget builder(BuildContext context, HomeViewModel model, Widget? child) {
     return DefaultTabController(
@@ -15,6 +16,7 @@ class HomeView extends StackedView<HomeViewModel> {
       child: Scaffold(
         body: NestedScrollView(
           floatHeaderSlivers: true,
+          physics: NeverScrollableScrollPhysics(),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
@@ -69,6 +71,7 @@ class HomeView extends StackedView<HomeViewModel> {
               ),
             ];
           },
+
           body: IndexedStack(
             index: model.currentTabIndex,
             children: [UsersView(), ChatsView()],
